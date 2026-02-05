@@ -5,22 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Loading...</title>
     <script>
-      // GitHub Pages SPA fallback - redirect to index.html with hash routing
+      // GitHub Pages SPA fallback
       var repoName = '/fahis-doctor-portal-main';
       var currentPath = window.location.pathname;
       
-      // Redirect to index.html with the path as a hash
-      var targetUrl = repoName + '/index.html';
-      
-      // If there's a path after the repo name, preserve it as hash
-      if (currentPath && currentPath !== repoName && currentPath !== repoName + '/') {
+      // Check if we need to add the repo name to the path
+      if (!currentPath.startsWith(repoName)) {
+        // Redirect to the correct URL with repo name
+        window.location.replace(repoName + '/index.html#' + currentPath);
+      } else {
+        // We're at the right base, redirect to index.html
         var pathAfterRepo = currentPath.replace(repoName, '').replace(/^\//, '');
+        var targetUrl = repoName + '/index.html';
+        
         if (pathAfterRepo && pathAfterRepo !== 'index.html') {
           targetUrl += '#/' + pathAfterRepo;
         }
+        
+        window.location.replace(targetUrl);
       }
-      
-      window.location.replace(targetUrl);
     </script>
   </head>
   <body>
