@@ -2,24 +2,28 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Fahis Doctor Portal - Professional Medical Platform</title>
+    <title>Loading...</title>
     <script>
-      // GitHub Pages SPA fallback - redirect to index.html with current path
+      // GitHub Pages SPA fallback - redirect to index.html with hash routing
       var repoName = '/fahis-doctor-portal-main';
       var currentPath = window.location.pathname;
-      var targetPath = repoName + '/index.html';
       
-      // If we're not already on the index.html, redirect
-      if (currentPath !== repoName + '/' && currentPath !== repoName + '/index.html') {
-        targetPath += '#' + currentPath.substring(repoName.length);
+      // Redirect to index.html with the path as a hash
+      var targetUrl = repoName + '/index.html';
+      
+      // If there's a path after the repo name, preserve it as hash
+      if (currentPath && currentPath !== repoName && currentPath !== repoName + '/') {
+        var pathAfterRepo = currentPath.replace(repoName, '').replace(/^\//, '');
+        if (pathAfterRepo && pathAfterRepo !== 'index.html') {
+          targetUrl += '#/' + pathAfterRepo;
+        }
       }
       
-      window.location.replace(targetPath);
+      window.location.replace(targetUrl);
     </script>
   </head>
   <body>
-    <p>Redirecting to homepage...</p>
+    <p>Loading Fahis Doctor Portal...</p>
   </body>
 </html>
