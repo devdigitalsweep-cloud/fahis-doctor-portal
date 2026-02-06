@@ -10,7 +10,7 @@
       var repoName = 'fahis-doctor-portal';
       var basename = '/' + repoName;
       
-      // Get the route path (without repo name and without index.html)
+      // Get the route path (without repo name)
       var fullPath = window.location.pathname;
       var routePath = fullPath;
       
@@ -19,9 +19,14 @@
         routePath = routePath.substring(basename.length);
       }
       
-      // If routePath is empty or just a slash, use '/dashboard' as default
-      if (!routePath || routePath === '/' || routePath === '/index.html') {
-        routePath = '/dashboard';
+      // Remove leading slash for storage
+      if (routePath.startsWith('/')) {
+        routePath = routePath.substring(1);
+      }
+      
+      // If routePath is empty, use 'dashboard' as default
+      if (!routePath || routePath === 'index.html') {
+        routePath = 'dashboard';
       }
       
       // Store the route (without basename) for the app to use
