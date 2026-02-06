@@ -7,16 +7,23 @@
   <script>
     // Single Page Application fallback for GitHub Pages
     (function() {
-      // Get the base path from the current URL
-      var basePath = '/fahis-doctor-portal';
-      var path = window.location.pathname.replace(basePath, '') || '/';
-      var search = window.location.search;
+      // Get the repository name from the URL path
+      var pathParts = window.location.pathname.split('/');
+      var repoName = 'fahis-doctor-portal';
       
-      // Store the original path and search params for the app to restore
-      sessionStorage.setItem('redirectPath', path + search);
+      // Remove repo name from path to get the route
+      var routePath = window.location.pathname;
+      if (routePath.indexOf('/' + repoName) === 0) {
+        routePath = routePath.substring(repoName.length + 1);
+      }
+      if (!routePath) routePath = '/';
+      routePath += window.location.search;
       
-      // Redirect to index.html
-      window.location.replace(basePath + '/index.html');
+      // Store the original route for the app to restore
+      sessionStorage.setItem('redirectPath', routePath);
+      
+      // Redirect to index.html in the same folder
+      window.location.replace('index.html');
     })();
   </script>
 </head>
