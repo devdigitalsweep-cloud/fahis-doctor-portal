@@ -7,27 +7,33 @@
   <script>
     // Single Page Application fallback for GitHub Pages
     (function() {
-      // Get the repository name from the URL path
-      var pathParts = window.location.pathname.split('/');
       var repoName = 'fahis-doctor-portal';
+      var basename = '/' + repoName;
       
-      // Remove repo name from path to get the route
-      var routePath = window.location.pathname;
-      if (routePath.indexOf('/' + repoName) === 0) {
-        routePath = routePath.substring(repoName.length + 1);
+      // Get the route path (without repo name and without index.html)
+      var fullPath = window.location.pathname;
+      var routePath = fullPath;
+      
+      // Remove the repo name from the beginning of the path
+      if (routePath.indexOf(basename) === 0) {
+        routePath = routePath.substring(basename.length);
       }
-      if (!routePath) routePath = '/';
-      routePath += window.location.search;
       
-      // Store the original route for the app to restore
+      // If routePath is empty or just a slash, use '/dashboard' as default
+      if (!routePath || routePath === '/' || routePath === '/index.html') {
+        routePath = '/dashboard';
+      }
+      
+      // Store the route (without basename) for the app to use
       sessionStorage.setItem('redirectPath', routePath);
+      console.log('Stored redirectPath:', routePath);
       
-      // Redirect to index.html in the same folder
+      // Redirect to index.html
       window.location.replace('index.html');
     })();
   </script>
 </head>
 <body>
-  <p>Redirecting...</p>
+  <p>Redirecting... check console for debug info</p>
 </body>
 </html>
