@@ -10,28 +10,47 @@
       var repoName = 'fahis-doctor-portal';
       var basename = '/' + repoName;
       
-      // Get the route path (without repo name)
+      // Get the current path
       var fullPath = window.location.pathname;
-      var routePath = fullPath;
       
-      // Remove the repo name from the beginning of the path
+      // Check if we've already tried to redirect (prevent loops)
+      if (sessionStorage.getItem('redirectInProgress')) {
+        console.log('Redirect already in progress, clearing flag');
+        sessionStorage.removeItem('redirectInProgress');
+        // Clear the stale redirectPath too
+        sessionStorage.removeItem('redirectPath');
+        return;
+      }
+      
+      // Only redirect if we're NOT already on index.html
+      if (fullPath.endsWith('/index.html') || fullPath === basename || fullPath === basename + '/') {
+        // Already on index.html, clear any stale flags
+        console.log('Already on index.html, no redirect needed');
+        sessionStorage.removeItem('redirectPath');
+        sessionStorage.removeItem('redirectInProgress');
+        return;
+      }
+      
+      // Extract the route path (without repo name)
+      var routePath = fullPath;
       if (routePath.indexOf(basename) === 0) {
         routePath = routePath.substring(basename.length);
       }
       
-      // Remove leading slash for storage
+      // Remove leading slash
       if (routePath.startsWith('/')) {
         routePath = routePath.substring(1);
       }
       
-      // If routePath is empty, use 'dashboard' as default
+      // If routePath is empty or index.html, use 'dashboard' as default
       if (!routePath || routePath === 'index.html') {
         routePath = 'dashboard';
       }
       
-      // Store the route (without basename) for the app to use
+      // Set flag to prevent loops
+      sessionStorage.setItem('redirectInProgress', 'true');
       sessionStorage.setItem('redirectPath', routePath);
-      console.log('Stored redirectPath:', routePath);
+      console.log('Redirect in progress, stored:', routePath);
       
       // Redirect to index.html
       window.location.replace('index.html');
