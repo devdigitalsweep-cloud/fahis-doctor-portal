@@ -13,21 +13,9 @@
       // Get the current path
       var fullPath = window.location.pathname;
       
-      // Check if we've already tried to redirect (prevent loops)
-      if (sessionStorage.getItem('redirectInProgress')) {
-        console.log('Redirect already in progress, clearing flag');
-        sessionStorage.removeItem('redirectInProgress');
-        // Clear the stale redirectPath too
-        sessionStorage.removeItem('redirectPath');
-        return;
-      }
-      
-      // Only redirect if we're NOT already on index.html
+      // Only process if we're NOT already on index.html
       if (fullPath.endsWith('/index.html') || fullPath === basename || fullPath === basename + '/') {
-        // Already on index.html, clear any stale flags
-        console.log('Already on index.html, no redirect needed');
-        sessionStorage.removeItem('redirectPath');
-        sessionStorage.removeItem('redirectInProgress');
+        // Already on index.html, do nothing
         return;
       }
       
@@ -47,10 +35,9 @@
         routePath = 'dashboard';
       }
       
-      // Set flag to prevent loops
-      sessionStorage.setItem('redirectInProgress', 'true');
+      // Store the route for the app to use
       sessionStorage.setItem('redirectPath', routePath);
-      console.log('Redirect in progress, stored:', routePath);
+      sessionStorage.setItem('redirectInProgress', 'true');
       
       // Redirect to index.html
       window.location.replace('index.html');
@@ -58,6 +45,6 @@
   </script>
 </head>
 <body>
-  <p>Redirecting... check console for debug info</p>
+  <p>Redirecting...</p>
 </body>
 </html>
